@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: jobster
+  contact: {}
+  version: '1.0'
+servers:
+  - url: https://jobster-app-api-node.onrender.com/api/v1
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: register user
+      operationId: registeruser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/registeruserrequest'
+                - example:
+                    name: nathan sodja
+                    email: developer@hulu.com
+                    password: yingyang
+            example:
+              name: nathan sodja
+              email: developer@hulu.com
+              password: yingyang
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: login user
+      operationId: loginuser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/loginuserrequest'
+                - example:
+                    email: maxa@hulu.com
+                    password: yingyang
+            example:
+              email: maxa@hulu.com
+              password: yingyang
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+  /jobs/:
+    get:
+      tags:
+        - jobs
+      summary: get all jobs
+      operationId: getalljobs
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+    post:
+      tags:
+        - jobs
+      summary: create job
+      operationId: createjob
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/createjobrequest'
+                - example:
+                    position: Software Engineer Level 2
+                    company: Tinder Inc.
+            example:
+              position: Software Engineer Level 2
+              company: Tinder Inc.
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+  /user/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: The user ID
+    get:
+      tags:
+        - jobs
+      summary: get job
+      operationId: getjob
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+    delete:
+      tags:
+        - jobs
+      summary: delete job
+      operationId: deletejob
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+    patch:
+      tags:
+        - jobs
+      summary: update job
+      operationId: updatejob
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/updatejobrequest'
+                - example:
+                    company: ''
+                    position: ''
+            example:
+              company: ''
+              position: ''
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+        - url: https://jobster-app-api-node.onrender.com/api/v1
+          variables: {}
+components:
+  schemas:
+    registeruserrequest:
+      title: registeruserrequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: nathan sodja
+        email: developer@hulu.com
+        password: yingyang
+    loginuserrequest:
+      title: loginuserrequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: maxa@hulu.com
+        password: yingyang
+    createjobrequest:
+      title: createjobrequest
+      required:
+        - position
+        - company
+      type: object
+      properties:
+        position:
+          type: string
+        company:
+          type: string
+      example:
+        position: Software Engineer Level 2
+        company: Tinder Inc.
+    updatejobrequest:
+      title: updatejobrequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      example:
+        company: ''
+        position: ''
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security:
+  - bearer: []
+tags:
+  - name: auth
+  - name: jobs
