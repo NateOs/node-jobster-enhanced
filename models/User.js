@@ -23,6 +23,18 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
+  lastname: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    default: "lastname",
+  },
+  location: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    default: "my city",
+  },
 });
 
 //* hash password
