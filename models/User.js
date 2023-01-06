@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please provide name"],
     minlength: 3,
     maxlength: 50,
   },
@@ -21,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8,
+    minlength: 6,
   },
   lastname: {
     type: String,
@@ -39,8 +38,11 @@ const UserSchema = new mongoose.Schema({
 
 //* hash password
 UserSchema.pre("save", async function () {
+  console.log(this.modifiedPaths());
+  if (!this.isModified("password")) return; // this fixes the bug were User.save is called and password is rehashed
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+
   // next(); use either async/await or call next()
 });
 

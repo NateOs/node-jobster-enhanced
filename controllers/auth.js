@@ -81,6 +81,9 @@ const updateUser = async (req, res) => {
   user.location = location;
 
   await user.save();
+  /* whenever this hook is called, preSave and postSaved are called, preSave hashes a new password in our app so after the hook the user cannot login, either flush all data or fix bug.*/
+  // the fix: check that password is not modified on preSave fxn and and esc the hashing.
+  // otherwise, use findById and Update user instead.
   const token = user.createJWT(); // if you haven't changed any values, perhaps you dont need to send a new token
 
   res.status(StatusCodes.OK).json({
