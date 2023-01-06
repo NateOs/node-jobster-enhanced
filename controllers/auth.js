@@ -67,8 +67,31 @@ const login = async (req, res) => {
 
 // update user
 const updateUser = async (req, res) => {
-  console.log(req.user);
-  console.log(req.body);
+  const { name, lastName, email, location } = req.body;
+
+  if (!name || !email || !lastName || !location) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  const user = await User.findOne({ _id: req.user.userId });
+
+  user.name = name;
+  user.email = email;
+  user.lastName = lastName;
+  user.location = location;
+
+  await user.save();
+  const token = user.createJWT(); // if you haven't changed any values, perhaps you dont need to send a new token
+
+  res.status(StatusCodes.OK).json({
+    user: {
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      location: user.location,
+      token,
+    },
+  });
 };
 
 module.exports = {
