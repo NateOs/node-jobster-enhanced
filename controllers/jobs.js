@@ -24,6 +24,20 @@ const getAllJobs = async (req, res) => {
 
   let result = Job.find(queryObject);
 
+  // sort criteria
+  if (sort === "latest") {
+    result = result.sort("-createdAt");
+  }
+  if (sort === "oldest") {
+    result = result.sort("createdAt");
+  }
+  if (sort === "a-z") {
+    result = result.sort("position");
+  }
+  if (sort === "z-a") {
+    result = result.sort("-position");
+  }
+
   const allJobs = await result;
 
   // allJobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
