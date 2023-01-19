@@ -1,5 +1,5 @@
 const express = require("express");
-
+const testUser = require("../middleware/testUser");
 const router = express.Router();
 
 const {
@@ -11,7 +11,7 @@ const {
 } = require("../controllers/jobs");
 
 // chaining shorthand fpr method and routes
-router.route("/").post(createJob).get(getAllJobs);
-router.route("/:id").get(getJob).delete(deleteJob).patch(updateJob);
+router.route("/").post(testUser, createJob).get(getAllJobs);
+router.route("/:id").get(getJob).delete(testUser, deleteJob).patch(testUser, updateJob);
 
 module.exports = router;

@@ -4,6 +4,7 @@ require("express-async-errors");
 // extra security packages
 const path = require("path");
 const xss = require("xss-clean"); // sanitizes user POST, GET queries
+const rateLimit = require("express-rate-limit");
 
 const express = require("express");
 const app = express();
@@ -16,6 +17,8 @@ const jobsRouter = require("./routes/jobs");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
+app.set("trust proxy", 1);
+app.use(rateLimit({ windowsMs: 15 * 60 * 1000, max: 100 }));
 
 app.use(express.json());
 
@@ -23,9 +26,7 @@ const connectDB = require("./db/connect");
 const authenticateUser = require("./middleware/authentication");
 
 // serve html
-app.use(
-  express.static(path.resolve(__dirname, "./client/build")),
-);
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 // routes
 app.use("/api/v1/auth", authRouter);
