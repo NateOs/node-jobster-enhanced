@@ -8,10 +8,16 @@ const {
   createJob,
   updateJob,
   deleteJob,
+  showStats,
 } = require("../controllers/jobs");
 
 // chaining shorthand fpr method and routes
 router.route("/").post(testUser, createJob).get(getAllJobs);
-router.route("/:id").get(getJob).delete(testUser, deleteJob).patch(testUser, updateJob);
+router.route("/stats").get(showStats);
+router
+  .route("/:id")
+  .get(getJob)
+  .delete(testUser, deleteJob)
+  .patch(testUser, updateJob);
 
 module.exports = router;
